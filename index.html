@@ -1,22 +1,45 @@
+<!DOCTYPE html>
 <html>
   <body>
     <script>
       (async () => {
+        try {
         const response = await fetch('https://api.github.com/repos/fr3qu3ncy/Research-Papers/contents/');
+        console.log("Response received:", response);
+        
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        
         const data = await response.json();
+        console.log("Data received from API:", data);
+
         let htmlString = '<ul>';
         
         for (let file of data) {
           let fileName = file.name;
+          console.log("Processing file:", fileName);
           if (fileName.endsWith('.md')) {
             fileName = fileName.slice(0, -3); // Remove the '.md' extension
+            console.log("File name after removing .md:", fileName);
           }
-          htmlString += `<li><a href="${file.path}">${fileName}</a></li>`;
+          let filePath = file.path;
+          console.log("Processing path:", filePath);
+          if (filePath.endsWith('.md')) {
+            filePath = filePath.slice(0, -3); // Remove the '.md' extension
+            console.log("File path after removing .md:", filePath);
+          }
+          
+          htmlString += `<li><a href="${filePath}">${fileName}</a></li>`;
         }
 
-        htmlString += '</ul>';
+        console.log("Final HTML string generated:", htmlString);
+          
         document.getElementsByTagName('body')[0].innerHTML = htmlString;
-      })()
+        } catch (error) {
+          console.error("An error occurred:", error);
+        }
+      })();
     </script>
-  <body>
+  </body>
 </html>
