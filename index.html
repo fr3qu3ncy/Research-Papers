@@ -69,6 +69,7 @@
                         console.log("Processing file:", fileName);
                         if (fileName.endsWith('.md')) {
                             fileName = fileName.slice(0, -3); // Remove the '.md' extension
+                            fileName = fileName.replace(/\-/g, " "); // Switch '-'' to spaces.
                             console.log("File name after removing .md:", fileName);
                         }
                         let filePath = file.path;
